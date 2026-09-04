@@ -1,0 +1,41 @@
+name: garde
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: garde-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  deny:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/checkout@v4
+        with:
+          repository: carllaliberte/garde
+          ref: d18cc6540fd012377207253ddb13a7fb392a3f5a
+          path: .garde
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: allow honest MESURE-v0
+        run: python3 .garde/garde.py deny --carte examples/figure.mesure.json
+      - name: deny temoin di on mesure card
+        run: |
+          set +e
+          python3 .garde/garde.py deny --carte tests/deny-temoin-di.mesure.json
+          code=$?
+          test "$code" -eq 2
+      - name: scan artifacts
+        run: python3 .garde/garde.py scan --root .
