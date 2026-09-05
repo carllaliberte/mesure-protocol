@@ -1,5 +1,5 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$schema": "https://json-schema.org/draft-2020-12/schema",
   "$id": "mesure.v0.json",
   "title": "MESURE-v0",
   "type": "object",
@@ -10,6 +10,7 @@
     "objet": { "type": "string", "minLength": 1 },
     "lectures": { "type": "integer", "minimum": 0 },
     "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "sha_sur": { "enum": ["fichier", "payload"] },
     "detruit": { "type": "boolean" }
   }
 }
