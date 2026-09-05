@@ -36,6 +36,22 @@ class Physics(unittest.TestCase):
         self.assertEqual(card["format"], "MESURE-v0")
         self.assertGreaterEqual(card["lectures"], 0)
 
+    def test_schema_accepte_sha_sur(self):
+        schema = json.loads(Path("schema/mesure.v0.json").read_text())
+        self.assertFalse(schema.get("additionalProperties", True))
+        self.assertEqual(schema["properties"]["sha_sur"]["enum"], ["fichier", "payload"])
+        card = {
+            "format": "MESURE-v0",
+            "objet": "figure",
+            "lectures": 1,
+            "sha256": "a" * 64,
+            "sha_sur": "payload",
+            "detruit": False,
+        }
+        allowed = set(schema["properties"])
+        self.assertTrue(set(card) <= allowed)
+        self.assertIn(card["sha_sur"], schema["properties"]["sha_sur"]["enum"])
+
 
 if __name__ == "__main__":
     unittest.main()

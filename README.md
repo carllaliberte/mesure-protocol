@@ -19,7 +19,7 @@ python3 mesure.py lire carte.mesure.json
 Ne pas forker une mesure.
 Sans `--fichier`, `sha256` porte sur le payload `{objet,lectures}` (`sha_sur: payload`).
 Avec `--fichier`, `sha256` porte sur les octets (`sha_sur: fichier`).
-`consulter` prend un verrou fichier (flock) pour éviter la double conso.
+`ouvrir` et `consulter` prennent un verrou sidecar POSIX (`carte.mesure.json.lock`) via `fcntl.flock`. Windows : pas de lock (`fcntl` absent). Un `.lock` orphelin est inoffensif — ce n'est pas la carte.
 
 Carte citée : https://acorn-royal-dune-blend.grok.me  
 Cadastre : https://github.com/carllaliberte/famille
