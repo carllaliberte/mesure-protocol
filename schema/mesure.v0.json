@@ -1,5 +1,5 @@
 {
-  "$schema": "https://json-schema.org/draft-2020-12/schema",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "mesure.v0.json",
   "title": "MESURE-v0",
   "type": "object",
